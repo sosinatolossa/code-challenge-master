@@ -44,8 +44,9 @@ $customer = new Customer('Joe Schmoe');
 $customer->addRental($rental1);
 $customer->addRental($rental2);
 $customer->addRental($rental3);
-$customer->addRental($rental4);
-$customer->addRental($rental5);
 
 echo $customer->statement();
+
+$customer->addRental($rental4);
+$customer->addRental($rental5);
 echo $customer->htmlStatement();
