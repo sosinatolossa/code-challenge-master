@@ -121,12 +121,12 @@ class Customer
                         $thisAmount += ($rental->daysRented() + 3) * .5; //add another 3 to $thisAmount then multiply it by .5
                     }
                     break;
-                    case Movie::HORROR: //case HORROR
-                        $thisAmount += 1; //increment $thisAmount by 1
-                        if ($rental->daysRented() > 4) { //if days rented is greater than 4
-                            $thisAmount += ($rental->daysRented()); //don't change anything
-                        }
-                        break;
+                case Movie::HORROR: //case HORROR
+                    $thisAmount += 1; //increment $thisAmount by 1
+                    if ($rental->daysRented() > 4) { //if days rented is greater than 4
+                        $thisAmount += ($rental->daysRented()); //don't change anything
+                    }
+                    break;
             }
 
             $totalAmount += $thisAmount;
