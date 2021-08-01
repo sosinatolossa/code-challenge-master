@@ -94,42 +94,39 @@ class Customer
     */
     public function htmlStatement()
     {
-        
-        foreach ($this->rentals as $rental) { //for each rental in rentals array
-            $thisAmount = 0; //initial amount is 0
+        echo "<h1>Rental Record for <em>$this->name</em></h1>";
 
-            switch($rental->movie()->priceCode()) { //based on the 
-                case Movie::REGULAR: //case: if the movie is regular
-                    $thisAmount += 2; //increment $thisAmount by 2
-                    if ($rental->daysRented() > 2) { //if the movie is rented for more than 2 days
-                        $thisAmount += ($rental->daysRented() - 2) * 1.5; // increment $thisAmount again by the result of => subtract 2 then multiply result by 1.5
+        echo "\n<ul>";
+        foreach ($this->rentals as $rental) { 
+            $thisAmount = 0; 
+
+            switch($rental->movie()->priceCode()) { 
+                case Movie::REGULAR: 
+                    $thisAmount += 2; 
+                    if ($rental->daysRented() > 2) { 
+                        $thisAmount += ($rental->daysRented() - 2) * 1.5; 
                     }
                     break;
-                case Movie::NEW_RELEASE: //case: if the movie is new
-                    $thisAmount += $rental->daysRented() * 3; //multiply the amount of days the movie is rented then add that to $thisAmount
+                case Movie::NEW_RELEASE:
+                    $thisAmount += $rental->daysRented() * 3;
                     break;
-                case Movie::CHILDRENS: //case: if the movie is for children
-                    $thisAmount += 1.5; //increment $thisAmount by 1.5
-                    if ($rental->daysRented() > 3) { //if days of rent is greater than 3
-                        $thisAmount += ($rental->daysRented() - 3) * 1.5; //subtract 3 from daysRented then multiply by 1.5 then add the result to $thisAMount
+                case Movie::CHILDRENS: 
+                    $thisAmount += 1.5; 
+                    if ($rental->daysRented() > 3) { 
+                        $thisAmount += ($rental->daysRented() - 3) * 1.5; 
                     }
                     break;
             }
 
-            $totalAmount += $thisAmount; //finally add $thisAmount to $totalAmount
+            $totalAmount += $thisAmount;
             $frequentRenterPoints++;
             if ($rental->movie()->priceCode() === Movie::NEW_RELEASE && $rental->daysRented() > 1) {
                 $frequentRenterPoints++;
             }
+            echo "\n \t <li>" . str_pad($rental->movie()->name(), 2) . " - " . $thisAmount . "</li>";   
         
         }
-        echo "<h1>Rental Record for <em>$this->name</em></h1>
-        <ul>
-            <li>Back to the Future - 3</li>
-            <li>Office Space - 3.5</li>
-            <li>The Big Lebowski - 15</li>
-        <ul>
-        <p>Amount owed is <em>$totalAmount</em>
-        <p>You earned <em>$frequentRenterPoints</em> frequent renter points</p>";
+        echo "\n</ul>";
+        echo "\n<p>Amount owed is <em>$totalAmount</em> \n<p>You earned <em>$frequentRenterPoints</em> frequent renter points</p>";
 }
 }
