@@ -94,10 +94,8 @@ class Customer
     */
     public function htmlStatement()
     {
-        echo "\n";
-        echo "<h1>Rental Record for <em>$this->name</em></h1>";
+        $result = [];
 
-        echo "\n<ul>";
         foreach ($this->rentals as $rental) { 
             $thisAmount = 0; 
 
@@ -135,10 +133,15 @@ class Customer
             $frequentRenterPoints++;
             if ($rental->movie()->priceCode() === Movie::NEW_RELEASE && $rental->daysRented() > 1) {
                 $frequentRenterPoints++;
-            }
-            echo "\n \t <li>" . str_pad($rental->movie()->name(), 2) . " - " . $thisAmount . "</li>";   
+            } 
+            array_push($result, str_pad($rental->movie()->name(), 2) . " - " . $thisAmount);
         
         }
+        echo "\n<h1>Rental Record for <em>$this->name</em></h1>\n";
+        echo '<ul>';
+        echo "\n\t";
+        echo '<li>' . implode('</li>
+        <li>', $result) . '</li>';
         echo "\n</ul>";
         echo "\n<p>Amount owed is <em>$totalAmount</em> \n<p>You earned <em>$frequentRenterPoints</em> frequent renter points</p>";
 }
