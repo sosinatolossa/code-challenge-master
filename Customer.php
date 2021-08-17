@@ -40,15 +40,17 @@ class Customer
         $this->rentals[] = $rental;
     }
 
+    //this is doc block
     /**
      * @return string
-     */
+     */ 
 
-    var $totalAmount = 0; //initial total amount is 0
-    var $frequentRenterPoints = 0; //initial frequentRenterPoints is 0
+    
     
     public function statement()
     {
+        $totalAmount = 0; //initial total amount is 0
+        $frequentRenterPoints = 0; //initial frequentRenterPoints is 0
         
         $result = 'Rental Record for ' . $this->name() . PHP_EOL; //using the name that name() function returns
 
@@ -89,11 +91,10 @@ class Customer
         return $result;
     }
 
-    /*
-    This method returns html
-    */
-    public function htmlStatement()
+    public function getRentalData()
     {
+        $totalAmount = 0; //initial total amount is 0
+        $frequentRenterPoints = 0; //initial frequentRenterPoints is 0
         $result = [];
 
         foreach ($this->rentals as $rental) { 
@@ -128,21 +129,31 @@ class Customer
                     }
                     break;
             }
-
             $totalAmount += $thisAmount;
             $frequentRenterPoints++;
             if ($rental->movie()->priceCode() === Movie::NEW_RELEASE && $rental->daysRented() > 1) {
                 $frequentRenterPoints++;
             } 
             array_push($result, str_pad($rental->movie()->name(), 2) . " - " . $thisAmount);
-        
+
         }
+        return (object) [ 'rentals' => $result, 'totalAmount' => $totalAmount, 'frequentRenterPoints' => $frequentRenterPoints ]; //empty array right now
+    }
+
+    /*
+    This method returns html
+    */
+    public function htmlStatement()
+    {
+    
+        $returnedData = $this->getRentalData();
+        
         echo "\n<h1>Rental Record for <em>$this->name</em></h1>\n";
         echo '<ul>';
         echo "\n\t";
         echo '<li>' . implode('</li>
-        <li>', $result) . '</li>';
+        <li>', $returnedData -> rentals) . '</li>';
         echo "\n</ul>";
-        echo "\n<p>Amount owed is <em>$totalAmount</em> \n<p>You earned <em>$frequentRenterPoints</em> frequent renter points</p>";
-}
+        echo "\n<p>Amount owed is <em>{$returnedData -> totalAmount}</em> \n<p>You earned <em>{$returnedData -> frequentRenterPoints}</em> frequent renter points</p>";
+    }
 }
