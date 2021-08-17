@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL); 
 
 require_once('Movie.php');
 require_once('Rental.php');
